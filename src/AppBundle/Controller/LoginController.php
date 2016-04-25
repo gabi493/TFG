@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class LoginController extends Controller
 {
+    private $route = 'cd /Applications/XAMPP/htdocs/dummy/tests_output/';
 
     public function indexAction(Request $request)
     {
@@ -50,18 +51,29 @@ class LoginController extends Controller
 
     public function testAction(Request $request)
     {
-        $cmd = 'cd /Applications/MAMP/htdocs/dummy; bin/behat';
-        //$cmd2 = 'ls -la';
-        $salida = shell_exec($cmd);
-        if (null === $salida) {
-            throw new \Exception('The element $salida is not found');
-        }
+        //$route = 'cd /Applications/XAMP/htdocs/dummy/tests_output;';
+        $cmd = 'bin/behat';
+        //$file = '/Applications/MAMP/htdocs/dummy/';
 
+        $testType = 'loginTestAction/';
+        $date = shell_exec('date +" %Y%m%d_%H%M%S"');
+        //    throw new \Exception($date);
+        shell_exec($this->route . $testType . $cmd . " > " . $date);
+
+        //$salida =
+        /*        if (null === $salida) {
+                    throw new \Exception('The element $salida is not found');
+                }
+        */
         return $this->render('AppBundle::test/loginForm.html.twig', array
         (
             'output'=> array(
                 'command'=> $cmd,
-                'salida'=> $salida
+                //'salida'=> $salida
+                //'salida'=> $file,
+                'date'=> $date,
+                'route'=> $this->route,
+                'test'=> $testType
             )
         ));
     }
